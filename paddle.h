@@ -1,13 +1,23 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
+#include "settings.h"
+
 class Paddle {
 public:
-	Paddle(sf::Vector2f size, sf::Vector2f initPos);
+	Paddle(sf::Vector2f paddleSize, float paddleSpeed, sf::Vector2f paddleInitPos);
+	void update(sf::Vector2f dir, float dt);
 	void draw(sf::RenderWindow& window);
 
-	sf::Vector2f pos;
+	std::unique_ptr<sf::RectangleShape> shape;
 
 private:
-	std::unique_ptr<sf::RectangleShape> shape;
+	void move(sf::Vector2f dir, float dt);
+
+	sf::Vector2f initPos;
+
+	sf::Vector2f size;
+	float speed;
+	sf::Vector2f pos;
+
 };

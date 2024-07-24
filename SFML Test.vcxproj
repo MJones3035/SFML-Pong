@@ -148,6 +148,7 @@
     <ClInclude Include="paddle.h" />
     <ClInclude Include="settings.h" />
     <ClInclude Include="pong.h" />
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
