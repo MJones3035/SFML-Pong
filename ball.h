@@ -18,6 +18,7 @@ private:
 
 
 	std::unique_ptr<sf::RectangleShape> shape;
+	//std::unique_ptr<sf::RectangleShape> shapeTrail;
 	sf::Vector2f initPos;
 
 	sf::Vector2f size;

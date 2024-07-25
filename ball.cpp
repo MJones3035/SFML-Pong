@@ -3,8 +3,12 @@
 Ball::Ball(sf::Vector2f ballSize, float ballSpeed, sf::Vector2f ballInitPos)
 {
 	shape = std::make_unique<sf::RectangleShape>(ballSize);
+	//shapeTrail = std::make_unique<sf::RectangleShape>(ballSize);
 	shape->setPosition(ballInitPos);
 	shape->setFillColor(sf::Color::Cyan);
+
+	//shapeTrail->setPosition(ballInitPos);
+	//shapeTrail->setFillColor(sf::Color(0, 255, 255, 100));
 
 	size = ballSize;
 	speed = ballSpeed;
@@ -36,11 +40,19 @@ void Ball::update(sf::RectangleShape& paddle1, sf::RectangleShape& paddle2, floa
 
 
 		// if ball collides with paddle
-		if (shape->getGlobalBounds().intersects(paddle1.getGlobalBounds()) || shape->getGlobalBounds().intersects(paddle2.getGlobalBounds()))
+		if (shape->getGlobalBounds().intersects(paddle1.getGlobalBounds()))
 		{
 
+			// paddle 1 x bounce
+			if (shape->getGlobalBounds().left + vec.x < paddle1.getGlobalBounds().left + paddle1.getSize().x) {
+				vec.x = -vec.x;
+				dir.x = -dir.x;
+
+
+				speed += speedInc;
+			}
 			// paddle 1 y bounce
-			if (shape->getGlobalBounds().top + size.y + vec.y > paddle1.getGlobalBounds().top || shape->getGlobalBounds().top + vec.y < paddle1.getGlobalBounds().top + paddle1.getSize().y) {
+			else if (shape->getGlobalBounds().top + size.y + vec.y > paddle1.getGlobalBounds().top || shape->getGlobalBounds().top + vec.y < paddle1.getGlobalBounds().top + paddle1.getSize().y) {
 				//vec.y = -vec.y;
 				//dir.y = -dir.y;
 
@@ -53,8 +65,20 @@ void Ball::update(sf::RectangleShape& paddle1, sf::RectangleShape& paddle2, floa
 
 			}
 
+		}
+		else if (shape->getGlobalBounds().intersects(paddle2.getGlobalBounds())) {
+
+
+			// paddle 2 x bounce
+			if (shape->getGlobalBounds().left + size.x + vec.x > paddle2.getGlobalBounds().left) {
+				vec.x = -vec.x;
+				dir.x = -dir.x;
+
+
+				speed += speedInc;
+			}
 			// paddle 2 y bounce
-			if (shape->getGlobalBounds().top + size.y + vec.y > paddle2.getGlobalBounds().top || shape->getGlobalBounds().top + vec.y < paddle2.getGlobalBounds().top + paddle2.getSize().y) {
+			else if (shape->getGlobalBounds().top + size.y + vec.y > paddle2.getGlobalBounds().top || shape->getGlobalBounds().top + vec.y < paddle2.getGlobalBounds().top + paddle2.getSize().y) {
 				//vec.y = -vec.y;
 				//dir.y = -dir.y;
 
@@ -68,16 +92,8 @@ void Ball::update(sf::RectangleShape& paddle1, sf::RectangleShape& paddle2, floa
 
 
 			}
-
-			// paddle x bounce
-			if (shape->getGlobalBounds().left + vec.x < paddle1.getGlobalBounds().left + paddle1.getSize().x || shape->getGlobalBounds().left + size.x + vec.x > paddle2.getGlobalBounds().left) {
-				vec.x = -vec.x;
-				dir.x = -dir.x;
-
-
-				speed += speedInc;
-			}
 		}
+
 
 		// window left and right collisions
 		if (shape->getGlobalBounds().left + vec.x < 0.f) {
@@ -91,7 +107,8 @@ void Ball::update(sf::RectangleShape& paddle1, sf::RectangleShape& paddle2, floa
 		}
 
 		shape->setPosition(pos);
-
+		//shapeTrail->setPosition(pos - vec * 100.f);
+		
 	}
 
 };
@@ -119,4 +136,5 @@ void Ball::reset(float xDir) {
 
 void Ball::draw(sf::RenderWindow& window) {
 	window.draw(*shape);
+	//window.draw(*shapeTrail);
 };
