@@ -1,14 +1,21 @@
 #include "paddle.h"
 
-Paddle::Paddle(sf::Vector2f paddleSize, float paddleSpeed, sf::Vector2f paddleInitPos)
+Paddle::Paddle(int num)
 {
-	shape = std::make_unique<sf::RectangleShape>(paddleSize);
-	shape->setPosition(paddleInitPos);
-	pos = paddleInitPos;
+	shape = std::make_unique<sf::RectangleShape>(size);
 
-	size = paddleSize;
-	speed = paddleSpeed;
-	initPos = paddleInitPos;
+	switch (num) 
+	{
+	case 1:
+		pos = paddle1InitPos; break;
+	case 2:
+		pos = paddle2InitPos; break;
+	default:
+		break;
+	}
+
+	shape->setPosition(pos);
+	shape->setOrigin(size.x / 2, size.y / 2);
 };
 
 void Paddle::update(sf::Vector2f dir, float dt) {

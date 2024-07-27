@@ -1,6 +1,8 @@
 #pragma once
 #include <memory>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+#include <string>
 
 #include "settings.h"
 #include "paddle.h"
@@ -14,18 +16,32 @@ public:
 
 private:
 	sf::Vector2f getInput(sf::Keyboard::Key up, sf::Keyboard::Key down);
+	void updateScoreText();
 
-
-	const sf::Vector2f paddleSize = sf::Vector2f(25, 100);
-	const sf::Vector2f ballSize = sf::Vector2f(20, 20);
-	const float paddleSpeed = 250.f;
-	const float ballSpeed = 300.f;
-	const sf::Vector2f ballInitPos = sf::Vector2f(Settings::WINDOW_WIDTH / 2 - ballSize.x / 2, Settings::WINDOW_HEIGHT / 2 - ballSize.y / 2);
-	const sf::Vector2f paddle1InitPos = sf::Vector2f(paddleSize.x, Settings::WINDOW_HEIGHT / 2 - (paddleSize.y / 2));
-	const sf::Vector2f paddle2InitPos = sf::Vector2f(Settings::WINDOW_WIDTH - paddleSize.x * 2, Settings::WINDOW_HEIGHT / 2 - (paddleSize.y / 2));
+	const sf::Vector2f borderSize = sf::Vector2f(Settings::WINDOW_WIDTH, 5.f);
 
 	std::unique_ptr<Paddle> paddle1;
 	std::unique_ptr<Paddle> paddle2;
 	std::unique_ptr<Ball> ball;
+
+	int paddle1Score = 0;
+	int paddle2Score = 0;
+
+	sf::Font font;
+	sf::Text paddle1ScoreText;
+	sf::Text paddle2ScoreText;
+
+	sf::SoundBuffer scoreSoundBuffer;
+
+	sf::Sound ScoreSound;
+
+	const sf::Vector2f paddle1ScoreTextPos = sf::Vector2f(Settings::WINDOW_WIDTH / 2 - 100.f, 25.f);
+	const sf::Vector2f paddle2ScoreTextPos = sf::Vector2f(Settings::WINDOW_WIDTH / 2 + 90.f, 25.f);
+
+	std::unique_ptr<sf::RectangleShape> topBorder;
+	std::unique_ptr<sf::RectangleShape> bottomBorder;
+	std::unique_ptr<sf::RectangleShape> middleBorder;
+
+
 
 };
